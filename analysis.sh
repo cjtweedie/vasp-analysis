@@ -44,5 +44,7 @@ awk -v Nion="$Nion" -v count="$count" '/TOTAL-FORCE/ {
 }' $dir/OUTCAR
 
 # plotting energy & forces as functions of relaxation step no.
-gnuplot -e 'set terminal pngcairo; set output "energy_convergence.png"; set xlabel "ionic step no."; plot "relax_energy.txt" title "energy [eV]" with lines'
-gnuplot -e 'set terminal pngcairo; set output "force_convergence.png"; set xlabel "ionic step no."; plot "relax_force.txt" title "force [eV/A]" with lines'
+gnuplot ./converge_plot.gnu
+
+#gnuplot -e 'set terminal pngcairo; set output "energy_convergence.png"; set xlabel "ionic step no."; plot "relax_energy.txt" title "energy [eV]" with lines'
+#gnuplot -e 'set terminal pngcairo; set output "force_convergence.png"; set xlabel "ionic step no."; plot "relax_force.txt" title "force [eV/A]" with lines'
