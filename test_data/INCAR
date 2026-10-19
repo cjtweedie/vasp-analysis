@@ -1,0 +1,20 @@
+System = ortho CsPbI2Br + defect in 160 atom supercell
+
+GGA = PE        ! XC functional; PBE
+IVDW = 12       ! DFT-D3 dispersion relation; additive vdW corrections to energy functional
+
+ENCUT = 500     ! energy cutoff for plane waves; optimised for convergence
+ALGO = Normal   ! electronic minimisation algo; Blocked-Davidson scheme 
+NELM = 60       ! no. electronic minimisation steps; default
+EDIFF = 1E-6    ! tolerance for energy convergence
+ISMEAR = 0      ! Gaussian smearing; default
+SIGMA = 0.2     ! broadening of the smearing; default
+LREAL = Auto	! real space evaluation of projection operators, automatically optimised
+ISYM = 0
+
+ISIF = 2        ! relaxes ionic positions
+IBRION = 2      ! conjugate-gradient algorithm for ionic relaxation
+NSW = 200       ! max relaxation steps
+EDIFFG = -0.008 ! tolerance for forces in relaxation loop
+
+NCORE = 8       ! no. cores to use in parallel per orbital

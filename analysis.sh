@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# MAY WANT TO GENERALISE IN FUTURE TO RUN SCRIPTS FROM ANY DIRECTORY W/O COPY+PASTING
+# USE CLI TO SPECIFY INPUT FOLDER 
+
 # /path/to/inputs and /path/to/outputs
 # change this to match your directory structure
 dir_in=./test_data
@@ -71,4 +74,4 @@ awk -v Nion="$Nion" -v count="$count" '/TOTAL-FORCE/ {
 
 # plotting energy & forces as functions of relaxation step no.
 rm fe_convergence.png
-gnuplot $dir_scripts/converge_plot.gnu
+gnuplot $dir_in/converge_plot.gnu
