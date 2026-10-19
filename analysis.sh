@@ -16,11 +16,8 @@ touch relax_force.txt
 rm $dir_out/relax_energy_diff.txt
 touch relax_energy_diff.txt
 
-# get no. ions by difference between first/last line in total force list
-# !!! FIX THIS UP TO JUST READ NIONS LINE !!!
-first=`grep -A 2 -n "POSITION" $dir_in/OUTCAR | tail -n +3 | head -n 1 | awk -F: '{printf "%i", $1}'`
-last=`grep -B 2 -n "total drift:" $dir_in/OUTCAR | head -n 1 | awk -F: '{printf "%i", $1}'`
-Nion=$((last-first+1))
+# grep no. ions to loop over ionic forces
+Nion=`grep "NIONS" $dir_in/OUTCAR | awk '{printf "%i", $12}'`
 
 # grep no. ionic steps for plotting
 Nstep=`grep "Ionic step" $dir_in/OUTCAR | tail -n 1 | awk '{printf "%i", $4}'`
@@ -48,18 +45,13 @@ do
 	k=$((Nstep-j+1))
 	E_b=`grep "free  energy" $dir_in/OUTCAR | tail -n $((k+1)) | head -n 1 | awk '{print $5}'`
 	E_f=`grep "free  energy" $dir_in/OUTCAR | tail -n $((k-1)) | head -n 1 | awk '{print $5}'`
-	#dE=`echo "1000*0.5*$E_f - 1000*0.5*$E_b" | bc`
 	dE=$(awk -v E_f="$E_f" -v E_b="$E_b" 'BEGIN {printf "%.10f\n", 1000*(0.5*E_f - 0.5*E_b)}')
-	#dE_sum=`echo "$dE_sum + $dE" | bc`
 	dE_sum=$(awk -v dE_sum="$dE_sum" -v dE="$dE" 'BEGIN {printf "%.10f\n", dE_sum + dE}')
-	#echo $j $dE >> relax_energy_diff.txt
 	printf "%i	%.3f\n" $j $dE >> relax_energy_diff.txt
 done
 
 # print average
-#d_inv=`echo "1.0/$d.0" | bc -l`
 d_inv=$(awk -v d="$d" 'BEGIN {printf "%.10f\n", 1/d}')
-#dE_avg=`echo "$d_inv*$dE_sum" | bc`
 dE_avg=$(awk -v d_inv="$d_inv" -v dE_sum="$dE_sum" 'BEGIN {printf "%.10f\n", d_inv*dE_sum}')
 printf "\n%s %i %s	%.3f\n" "Avg gradient over last" $d "steps (meV):" $dE_avg >> relax_energy_diff.txt
 
