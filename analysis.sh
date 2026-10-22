@@ -27,7 +27,7 @@ Nstep=`grep "Ionic step" $dir_in/OUTCAR | tail -n 1 | awk '{printf "%i", $4}'`
 # grep total energy at end of each ionic step
 # double space ensures it doesn't get values at each elec step
 printf "%s	%s\n" "Step no." "Total energy (eV)" >> relax_energy.txt
-for ((j=1; j<=$Nstep; j++))
+for ((j=1 ; j<=$Nstep ; j++))
 do
 	k=$((Nstep-j+1))
 	energy=`grep "free  energy" $dir_in/OUTCAR | tail -n $k | head -n 1 | awk '{print $5}'`
@@ -40,7 +40,7 @@ done
 d=20
 dE_sum=0
 printf "%s	%s\n" "Step no." "Change in energy (meV)" >> relax_energy_diff.txt
-for ((j=$((Nstep-d)); j<=$Nstep-1; j++))
+for ((j=$((Nstep-d)) ; j<=$Nstep-1 ; j++))
 do
 	k=$((Nstep-j+1))
 	E_b=`grep "free  energy" $dir_in/OUTCAR | tail -n $((k+1)) | head -n 1 | awk '{print $5}'`
@@ -64,7 +64,7 @@ awk -v Nion="$Nion" -v count="$count" '/TOTAL-FORCE/ {
 	count++
 	max = 0.0
 	getline
-	for(j=0; j<Nion; j++) {
+	for(j=0 ; j<Nion ; j++) {
 		getline
 		Ftot = sqrt($4^2+$5^2+$6^2)
 		if (Ftot > max)

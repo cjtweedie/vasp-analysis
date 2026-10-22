@@ -7,7 +7,7 @@
 # ENCUT vs energy written in energy_encut.txt
 rm -f energy_encut1.txt
 
-for ((encut = 300 ; encut < 1000 ; encut+=10));     # loops through ENCUT values from min (e.g. 300eV) and max (e.g. 800eV) in steps of x (1,10,50)
+for ((encut=300 ; encut<1000 ; encut+=50));     # loops through ENCUT values from min (e.g. 300eV) and max (e.g. 800eV) in steps of x (1,10,50)
 do
     sed -i "s/ENCUT.*/ENCUT = $encut/" INCAR        # replaces ENCUT in INCAR with value of "encut" in current loop iteration
 

@@ -76,7 +76,7 @@ awk -v Ea="$Ea" -v Etol="$Etol4" '(($3-Ea))<Etol {
 d=10
 dE_sum=0
 printf "\n%s %i %s\n" "Energy change per step (meV) over last" $d "steps" >> energy_conv.txt
-for ((j=$((Nstep-d)); j<=$Nstep-1; j++))
+for ((j=$((Nstep-d)) ; j<=$Nstep-1 ; j++))
 do
 	k=$((Nstep-j+1))
 	E_b=`grep "0 " $dir_in/02/fe.dat | tail -n $((k+1)) | head -n 1 | awk '{print $3}'`

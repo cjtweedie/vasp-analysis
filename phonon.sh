@@ -3,8 +3,8 @@
 # need to adjust N for no. atoms; could just grep this from POSCAR or displace.yaml
 # loop to create all 6N displaced POSCAR folders, run static VASP calc for each
 # phonopy can then extract forces & force constants from the vasprun.xml in each folder
-N=955
-for ((i=1 ; i<$N ; i++));     
+N=954
+for ((i=1 ; i<=$N ; i++));     
 do
 	printf -v j "%03d" "$i"
 	mkdir disp"$j"

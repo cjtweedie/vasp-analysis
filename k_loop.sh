@@ -8,7 +8,7 @@
 
 rm -f energy_kpoints1.txt
 
-for ((k = 1 ; k <= 12 ; k++))	# loops through dim. of k mesh in each direction from min (e.g. 1) and max (e.g. 12) in steps of 1
+for ((k=1 ; k<=12 ; k++))	# loops through dim. of k mesh in each direction from min (e.g. 1) and max (e.g. 12) in steps of 1
 do
   cat > KPOINTS << EOF	# rewriting KPOINTS file each time with new k value
   Pristine Cubic CsPbI3 unit cell
