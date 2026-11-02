@@ -5,7 +5,7 @@
 
 # /path/to/inputs and /path/to/outputs
 # change this to match your directory structure
-dir_in=./test_data
+dir_in=./test_data/relax
 dir_out=./test_outputs
 
 # create empty output files
@@ -45,14 +45,13 @@ do
 	k=$((Nstep-j+1))
 	E_b=`grep "free  energy" $dir_in/OUTCAR | tail -n $((k+1)) | head -n 1 | awk '{print $5}'`
 	E_f=`grep "free  energy" $dir_in/OUTCAR | tail -n $((k-1)) | head -n 1 | awk '{print $5}'`
-	dE=$(awk -v E_f="$E_f" -v E_b="$E_b" 'BEGIN {printf "%.10f\n", 1000*(0.5*E_f - 0.5*E_b)}')
+	dE=$(awk -v E_f="$E_f" -v E_b="$E_b" 'BEGIN {printf "%.10f\n", 1000*0.5*(E_f - E_b)}')
 	dE_sum=$(awk -v dE_sum="$dE_sum" -v dE="$dE" 'BEGIN {printf "%.10f\n", dE_sum + dE}')
 	printf "%i	%.3f\n" $j $dE >> relax_energy_diff.txt
 done
 
 # print average
-d_inv=$(awk -v d="$d" 'BEGIN {printf "%.10f\n", 1/d}')
-dE_avg=$(awk -v d_inv="$d_inv" -v dE_sum="$dE_sum" 'BEGIN {printf "%.10f\n", d_inv*dE_sum}')
+dE_avg=$(awk -v d="$d" -v dE_sum="$dE_sum" 'BEGIN {printf "%.10f\n", (1/d)*dE_sum}')
 printf "\n%s %i %s	%.3f\n" "Avg gradient over last" $d "steps (meV):" $dE_avg >> relax_energy_diff.txt
 
 
@@ -76,7 +75,7 @@ awk -v Nion="$Nion" -v count="$count" '/TOTAL-FORCE/ {
 # plotting energy & forces as functions of relaxation step no.
 gnuplot converge_plot.gnu
 
-mv relax_energy.txt ./test_outputs
-mv relax_force.txt ./test_outputs
-mv relax_energy_diff.txt ./test_outputs
-mv fe_convergence.png ./test_outputs
+mv relax_energy.txt $dir_out
+mv relax_force.txt $dir_out
+mv relax_energy_diff.txt $dir_out
+mv fe_convergence.png $dir_out
